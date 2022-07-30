@@ -1,0 +1,13 @@
+title Single page app - new note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+note over browser:
+prevent the default
+behaviour of reloading
+the page.
+Send the new note data to
+the server with content type
+application/json
+end note
+
+server-->browser: Server responds with status code 201 and no further HTTP requests
