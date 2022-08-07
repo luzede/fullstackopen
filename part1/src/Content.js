@@ -1,11 +1,13 @@
+import Part from './Part'
+
 const Content = (props) => {
-    const exercises = props.exercises;
+    const e = props.exercises;
     const parts = props.parts;
     const content = [];
 
     for (let i = 0; i < parts.length; i++) {
         content.push(
-            <p>{parts[i]} {exercises[i]}</p>
+            <Part part={parts[i]} exercises={e[i]} />
         );
     }
 
