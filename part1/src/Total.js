@@ -1,9 +1,9 @@
 const Total = (props) => {
-    const exercises = props.exercises;
+    const parts = props.parts;
     let total = 0;
 
-    for (let e of exercises) {
-        total += e;
+    for (let e of parts) {
+        total += e.exercises;
     }
 
     return (
