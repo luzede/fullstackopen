@@ -9,11 +9,19 @@ const Button = ({ handleClick, text }) => {
 }
 
 const StatisticsLine = ({ text, value }) => {
-  if (text === "positive" || text === "average") {
+  if (text === "positive") {
     return (
       <tr>
         <td>{text}</td>
         <td>{value.toFixed(1)} %</td>
+      </tr>
+    )
+  }
+  else if (text === "average") {
+    return (
+      <tr>
+        <td>{text}</td>
+        <td>{value.toFixed(1)}</td>
       </tr>
     )
   }
