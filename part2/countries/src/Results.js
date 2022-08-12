@@ -14,7 +14,6 @@ const Results = ({ filteredCountries, showHide, setShowHide }) => {
             // event.target.innerText = 'show'
             setShowHide({ ...showHide, [country.name.common]: false })
         }
-        console.log(event);
     }
 
 
