@@ -28,8 +28,12 @@ const App = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        if (persons.some(person => person.name === newName)) {
-            alert(`${newName} is already added to phonebook`);
+        const person = persons.find(p => p.name === newName)
+        if (person) {
+            phones.update(person.id, newName, newPhoneNumber)
+                .then(response => {
+                    setPersons(persons.map(p => p.id !== person.id ? p : response))
+                })
             return;
         }
         phones.add(newName, newPhoneNumber)
