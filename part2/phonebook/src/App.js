@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Filter from './Filter'
 import PersonForm from './PersonForm'
 import Persons from './Persons'
+import SuccessError from './SuccessError'
 import phones from './services/phones'
 
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newPhoneNumber, setNewPhoneNumber] = useState('')
     const [filtered, setFilter] = useState('')
+    const [successError, setSuccessError] = useState({})
 
     useEffect(() => {
         phones.getAll().then(response => setPersons(response))
@@ -38,9 +40,14 @@ const App = () => {
         }
         phones.add(newName, newPhoneNumber)
             .then(response => {
+                setSuccessError({ type: 'success', message: `${newName} has been added to phonebook` })
                 setPersons(persons.concat(response))
                 setNewName('')
                 setNewPhoneNumber('')
+
+                setTimeout(() => {
+                    setSuccessError({})
+                }, 5000)
             })
     }
 
@@ -48,11 +55,12 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+            <SuccessError successError={successError} />
             <Filter filtered={filtered} handleFilter={handleFilter} />
             <h2>Add a new</h2>
             <PersonForm newName={newName} handleInputName={handleInputName} newPhoneNumber={newPhoneNumber} handleInputNumber={handleInputNumber} handleSubmit={handleSubmit} />
             <h2>Numbers</h2>
-            <Persons persons={persons} filtered={filtered} setPersons={setPersons} />
+            <Persons persons={persons} filtered={filtered} setPersons={setPersons} setSuccessError={setSuccessError} />
         </div>
     )
 }

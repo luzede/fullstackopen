@@ -1,13 +1,18 @@
 import phones from './services/phones'
 
-const Persons = ({persons, filtered, setPersons}) => {
+const Persons = ({persons, filtered, setPersons, setSuccessError}) => {
     const handleClick = (person) => {
         if (window.confirm(`Delete ${person.name}?`)) {
             phones.deleteContact(person.id)
                 .then(() => {
                     setPersons(persons.filter(p => p.id !== person.id))
                 }).catch(error => {
-                    alert(error.response.data.error)
+                    setSuccessError({ type: 'error', message:`Information of ${person.name} has already been removed from server`})
+                    
+                    setTimeout(() => {
+                        setSuccessError({})
+                    }, 5000)
+                    setPersons(persons.filter(p => p.id !== person.id))
                 }
             )
         }
