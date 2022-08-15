@@ -1,19 +1,12 @@
 {
   "persons": [
     {
-      "name": "Luka Zervaki",
-      "number": ".",
-      "id": 1
+      "name": "John",
+      "age": 30
     },
     {
-      "name": "Mariam Zervaki",
-      "number": "..",
-      "id": 2
-    },
-    {
-      "name": "Edo Miraqiani",
-      "number": "h",
-      "id": 3
+      "name": "Jane",
+      "age": 20
     },
     {
       "name": "Miarq",
