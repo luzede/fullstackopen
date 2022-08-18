@@ -36,6 +36,13 @@ const App = () => {
                 .then(response => {
                     setPersons(persons.map(p => p.id !== person.id ? p : response))
                 })
+                .catch(error => {
+                    setSuccessError({ message: `${error.response.data.error}`, type: 'error' });
+
+                    setTimeout(() => {
+                        setSuccessError({});
+                    }, 5000)
+                })
             return;
         }
         phones.add(newName, newPhoneNumber)
@@ -47,6 +54,13 @@ const App = () => {
 
                 setTimeout(() => {
                     setSuccessError({})
+                }, 5000)
+            })
+            .catch(error => {
+                setSuccessError({ message: `${error.response.data.error}`, type: 'error' });
+
+                setTimeout(() => {
+                    setSuccessError({});
                 }, 5000)
             })
     }
