@@ -1,6 +1,6 @@
-const { favoriteBlog } = require('../utils/list_helper');
+const { mostBlogs } = require('../utils/list_helper');
 
-describe('favorite blog', () => {
+describe('most blogs', () => {
   const listWithOneBlog = [
     {
       _id: '5a422aa71b54a676234d17f8',
@@ -62,17 +62,11 @@ describe('favorite blog', () => {
     },
   ];
 
-  test('when there is only one blog with 0 likes, return it', () => {
-    expect(favoriteBlog(listWithOneBlog)).toEqual(listWithOneBlog[0]);
+  test('When there is one blog, return the author of it', () => {
+    expect(mostBlogs(listWithOneBlog)).toEqual({ author: 'Edsger W. Dijkstra', blogs: 1 });
   });
 
-  test('when there is only one blog with greater than 0 likes, return it', () => {
-    const blog = listWithOneBlog.slice();
-    blog[0].likes = 1;
-    expect(favoriteBlog(blog)).toEqual(blog[0]);
-  });
-
-  test('when there are multiple blogs, return the blog with most likes', () => {
-    expect(favoriteBlog(listWithMultipleBlogs)).toEqual(listWithMultipleBlogs[2]);
+  test('When there is a list of blogs, return the author with most blogs', () => {
+    expect(mostBlogs(listWithMultipleBlogs)).toEqual({ author: 'Robert C. Martin', blogs: 3 });
   });
 });
