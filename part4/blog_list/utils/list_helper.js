@@ -10,9 +10,10 @@ const favoriteBlog = (blogs) => blogs
 
 const mostBlogs = (blogs) => {
   const authorWithMostBlogs = _.maxBy(
-    Object.entries(_.countBy(blogs, 'likes')),
+    Object.entries(_.countBy(blogs, 'author')),
     ([_author, count]) => count,
   );
+  console.log(authorWithMostBlogs);
 
   return {
     author: `${authorWithMostBlogs[0]}`,
