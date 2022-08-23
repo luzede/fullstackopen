@@ -95,6 +95,37 @@ describe('blog list api', () => {
 
     expect(blogsBefore.length).toEqual(blogsAfter.length);
   });
+
+  test('HTTP PUT updating a resource', async () => {
+    const blogs = await helper.blogsInDb();
+    const updatedBlog = await api
+      .put(`/api/blogs/${blogs[0].id}`)
+      .send({
+        author: 'ee',
+        url: 'ee',
+        title: 'ee',
+        likes: 0,
+      })
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAfter = await helper.blogsInDb();
+    expect(blogsAfter[0]).toEqual(JSON.parse(updatedBlog.text));
+
+    expect(blogsAfter.length).toBe(blogs.length);
+  });
+
+  test('HTTP PUT updating non existent resource -> 400 Bad Request', async () => {
+    await api
+      .put('/api/blogs/123')
+      .send({
+        author: 'ee',
+        url: 'ee',
+        title: 'ee',
+        likes: 0,
+      })
+      .expect(400);
+  });
 });
 
 afterAll(() => {
