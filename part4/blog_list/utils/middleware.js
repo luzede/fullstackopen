@@ -21,6 +21,9 @@ const errorHandler = (error, _request, response, next) => {
   if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message });
   }
+  if (error.message === 'NonExistingId') {
+    return response.status(400).send(error.message);
+  }
 
   next(error);
   return null;

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 const Blog = require('../models/blog');
@@ -43,7 +44,13 @@ const initialBlogs = [
 
 const blogsInDb = async () => {
   const blogs = await Blog.find({});
-  return blogs.map((blog) => blog.toJSON());
+  return blogs.map((blog) => ({
+    id: blog._id.toString(),
+    author: blog.author,
+    likes: blog.likes,
+    title: blog.title,
+    url: blog.url,
+  }));
 };
 
 const nonExistingBlogId = async () => {
