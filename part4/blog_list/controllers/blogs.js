@@ -10,8 +10,8 @@ blogsRouter.get('/', async (_request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body);
 
-  await blog.save();
-  response.status(201).json(blog);
+  const savedBlog = await blog.save();
+  response.status(201).json(savedBlog);
 });
 
 blogsRouter.delete('/:id', async (request, response) => {
