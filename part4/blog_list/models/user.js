@@ -10,7 +10,10 @@ const userSchema = mongoose.Schema({
     lowercase: true,
   },
   name: String,
-  passwordHash: String,
+  passwordHash: {
+    type: String,
+    required: true,
+  },
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,

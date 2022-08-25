@@ -6,6 +6,12 @@ require('express-async-errors');
 usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body;
 
+  if (password.length < 3) {
+    return response.status(401).json({
+      error: 'invalid password',
+    });
+  }
+
   const foundUser = await User.findOne({ username });
   if (foundUser) {
     return response.status(400).json({
@@ -27,7 +33,9 @@ usersRouter.post('/', async (request, response) => {
 });
 
 usersRouter.get('/', async (_request, response) => {
-  const users = await User.find({});
+  const users = await User.find({}).populate('blogs', {
+    title: 1, url: 1, likes: 1, _id: 1,
+  });
   response.json(users);
 });
 
