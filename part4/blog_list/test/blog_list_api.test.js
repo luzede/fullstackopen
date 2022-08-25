@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
+const bcrypt = require('bcrypt');
 require('express-async-errors');
 const helper = require('../utils/test_helper');
 const app = require('../app');
@@ -7,13 +8,14 @@ const app = require('../app');
 const api = supertest(app);
 
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
-beforeEach(async () => {
-  await Blog.deleteMany({});
-  await Blog.insertMany(helper.initialBlogs);
-});
+describe('tests for blogs', () => {
+  beforeEach(async () => {
+    await Blog.deleteMany({});
+    await Blog.insertMany(helper.initialBlogs);
+  });
 
-describe('blog list api', () => {
   test('HTTP GET request works', async () => {
     api.get('/api/blogs')
       .expect(200)
@@ -125,6 +127,44 @@ describe('blog list api', () => {
         likes: 0,
       })
       .expect(400);
+  });
+});
+
+describe('tests for users', () => {
+  beforeEach(async () => {
+    await User.deleteMany({});
+
+    const passwordHash = await bcrypt.hash('sexysecretary', 10);
+    const user = new User({
+      username: 'Elly',
+      name: 'Elleonora',
+      passwordHash,
+    });
+
+    await user.save();
+  });
+
+  test('HTTP POST a new user', async () => {
+    const usersBefore = await helper.usersInDb();
+
+    const newUser = {
+      username: 'Luky',
+      name: 'Luka',
+      password: 'ellyluky',
+    };
+
+    const user = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    expect(user.body.username).toBe(newUser.username.toLowerCase());
+
+    const usersAfter = await helper.usersInDb();
+    expect(usersAfter).toHaveLength(usersBefore.length + 1);
+
+    expect(usersAfter.map((u) => u.username)).toContain(newUser.username.toLowerCase());
   });
 });
 

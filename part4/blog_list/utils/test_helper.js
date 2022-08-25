@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 const initialBlogs = [
   {
@@ -44,13 +45,7 @@ const initialBlogs = [
 
 const blogsInDb = async () => {
   const blogs = await Blog.find({});
-  return blogs.map((blog) => ({
-    id: blog._id.toString(),
-    author: blog.author,
-    likes: blog.likes,
-    title: blog.title,
-    url: blog.url,
-  }));
+  return blogs.map((blog) => blog.toJSON());
 };
 
 const nonExistingBlogId = async () => {
@@ -65,8 +60,15 @@ const nonExistingBlogId = async () => {
   return blog._id.toString();
 };
 
+// USER SECTION
+const usersInDb = async () => {
+  const users = await User.find({});
+  return users.map((user) => user.toJSON());
+};
+
 module.exports = {
   initialBlogs,
   blogsInDb,
   nonExistingBlogId,
+  usersInDb,
 };
