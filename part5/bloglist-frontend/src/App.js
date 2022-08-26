@@ -5,8 +5,10 @@ import loginService from './services/login'
 import Login from './components/Login'
 import Logout from './components/Logout'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 
 const App = () => {
+  const [notification, setNotification] = useState(null);
   //blogs
   const [blogs, setBlogs] = useState([])
   // login
@@ -29,24 +31,47 @@ const App = () => {
       window.localStorage.setItem('user', JSON.stringify(user))
     }
     catch (err) {
-      throw err
+      setNotification({
+        type: 'error',
+        message: err.response.data.error,
+      })
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
     }
   }
 
   const blogSubmit = async (event) => {
     event.preventDefault()
-    
-    const target = event.target;
-    const blog = {
-      title: target[0].value,
-      author: target[1].value,
-      url: target[2].value,
+    try {
+      const target = event.target;
+      const blog = {
+        title: target[0].value,
+        author: target[1].value,
+        url: target[2].value,
+      }
+      const addedBlog = await blogService.create(blog)
+      setBlogs(blogs.concat(addedBlog))
+      setNotification({
+        type: 'success',
+        message: `a new blog ${addedBlog.title} by ${addedBlog.author} added`,
+      })
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
     }
-    const addedBlog = await blogService.create(blog)
-    setBlogs(blogs.concat(addedBlog))
+    catch(err) {
+      setNotification({
+        type: 'error',
+        message: err.response.data.error,
+      })
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
+    }
   }
 
-  
+
 
 
   useEffect(() => {
@@ -63,14 +88,16 @@ const App = () => {
   }, [])
 
   return (
-      (user === null)
+    (user === null)
       ?
       <div>
+        {notification === null ? null : <Notification notification={notification} />}
         <Login username={username} setUsername={setUsername} password={password} setPassword={setPassword} handleLogin={handleLogin} />
       </div>
       :
       <div>
         <h2><b>blogs</b></h2>
+        {notification === null ? null : <Notification notification={notification} />}
         <p>
           {user.name} logged in
           <Logout onClick={() => setUser(null)} />
