@@ -1,10 +1,8 @@
 import Blog from './Blog'
 
-const Blogs = ({blogs, name}) => {
+const Blogs = ({blogs}) => {
   return (
     <>
-      <h2>blogs</h2>
-      <p><b>{name} logged in</b></p>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}

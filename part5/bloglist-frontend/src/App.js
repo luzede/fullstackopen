@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Login from './components/Login'
 import Logout from './components/Logout'
+import BlogForm from './components/BlogForm'
 
 const App = () => {
   //blogs
@@ -24,12 +25,28 @@ const App = () => {
         event.target[1].value
       )
       setUser(user);
+      blogService.setToken(user.token)
       window.localStorage.setItem('user', JSON.stringify(user))
     }
     catch (err) {
       throw err
     }
   }
+
+  const blogSubmit = async (event) => {
+    event.preventDefault()
+    
+    const target = event.target;
+    const blog = {
+      title: target[0].value,
+      author: target[1].value,
+      url: target[2].value,
+    }
+    const addedBlog = await blogService.create(blog)
+    setBlogs(blogs.concat(addedBlog))
+  }
+
+  
 
 
   useEffect(() => {
@@ -41,22 +58,26 @@ const App = () => {
     const u = window.localStorage.getItem('user');
     if (u) {
       setUser(JSON.parse(u))
+      blogService.setToken((JSON.parse(u)).token)
     }
   }, [])
 
   return (
-    [
       (user === null)
-      ? //
+      ?
       <div>
         <Login username={username} setUsername={setUsername} password={password} setPassword={setPassword} handleLogin={handleLogin} />
       </div>
-      : //
+      :
       <div>
-        <Logout onClick={() => setUser(null)} />
-        <Blogs blogs={blogs} name={user.name} />
+        <h2><b>blogs</b></h2>
+        <p>
+          {user.name} logged in
+          <Logout onClick={() => setUser(null)} />
+        </p>
+        <BlogForm blogSubmit={blogSubmit} />
+        <Blogs blogs={blogs} />
       </div>
-    ]
   )
 }
 
