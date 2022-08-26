@@ -10,6 +10,7 @@ blogsRouter.get('/', async (_request, response) => {
     username: 1,
     name: 1,
     _id: 1,
+    author: 1,
   });
   response.json(blogs);
 });
@@ -31,6 +32,7 @@ blogsRouter.post('/', async (request, response) => {
     url: body.url,
     title: body.title,
     likes: body.likes,
+    author: body.author,
     // eslint-disable-next-line no-underscore-dangle
     user: user._id,
   });
@@ -58,12 +60,21 @@ blogsRouter.delete('/:id', async (request, response) => {
 });
 
 blogsRouter.put('/:id', async (request, response) => {
-  const blog = await Blog.findByIdAndUpdate(
+  const { user } = request;
+
+  const blog = await Blog.findById(request.params.id);
+  if (!blog && (blog.user.toString() !== user.id)) {
+    return response.status(403).json({
+      error: 'no permission, not the owner',
+    });
+  }
+
+  const updatedBlog = await Blog.findByIdAndUpdate(
     request.params.id,
     request.body,
     { new: true, runValidators: true, context: 'query' },
   );
-  response.json(blog);
+  return response.json(updatedBlog);
 });
 
 module.exports = blogsRouter;
