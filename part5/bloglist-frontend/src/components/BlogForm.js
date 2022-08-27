@@ -14,7 +14,9 @@ const BlogForm = ({ createBlog }) => {
         url: target[2].value,
       }
     await createBlog(blog)
-    
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   
