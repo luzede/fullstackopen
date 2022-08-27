@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blogs from './components/Blogs'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -6,6 +6,7 @@ import Login from './components/Login'
 import Logout from './components/Logout'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
+import Toggleable from './components/Toggleable'
 
 const App = () => {
   const [notification, setNotification] = useState(null);
@@ -51,6 +52,7 @@ const App = () => {
         url: target[2].value,
       }
       const addedBlog = await blogService.create(blog)
+      blogFormRef.current.toggleVisibility()
       setBlogs(blogs.concat(addedBlog))
       setNotification({
         type: 'success',
@@ -60,7 +62,7 @@ const App = () => {
         setNotification(null)
       }, 5000)
     }
-    catch(err) {
+    catch (err) {
       setNotification({
         type: 'error',
         message: err.response.data.error,
@@ -72,6 +74,8 @@ const App = () => {
   }
 
 
+  const blogFormRef = useRef()
+  
 
 
   useEffect(() => {
@@ -102,7 +106,9 @@ const App = () => {
           {user.name} logged in
           <Logout onClick={() => setUser(null)} />
         </p>
-        <BlogForm blogSubmit={blogSubmit} />
+        <Toggleable buttonLabel='new blog' ref={blogFormRef}>
+          <BlogForm blogSubmit={blogSubmit} />
+        </Toggleable>
         <Blogs blogs={blogs} />
       </div>
   )
