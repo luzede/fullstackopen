@@ -1,9 +1,21 @@
 import { useState } from 'react'
 
-const BlogForm = ({ blogSubmit }) => {
+const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  const blogSubmit = async (event) => {
+    event.preventDefault()
+    const target = event.target;
+      const blog = {
+        title: target[0].value,
+        author: target[1].value,
+        url: target[2].value,
+      }
+    await createBlog(blog)
+    
+  }
 
   
   return (

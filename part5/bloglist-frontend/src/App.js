@@ -42,16 +42,9 @@ const App = () => {
     }
   }
 
-  const blogSubmit = async (event) => {
-    event.preventDefault()
+  const createBlog = async (object) => {
     try {
-      const target = event.target;
-      const blog = {
-        title: target[0].value,
-        author: target[1].value,
-        url: target[2].value,
-      }
-      const addedBlog = await blogService.create(blog)
+      const addedBlog = await blogService.create(object)
       blogFormRef.current.toggleVisibility()
       setBlogs(blogs.concat(addedBlog))
       setNotification({
@@ -75,7 +68,7 @@ const App = () => {
 
 
   const blogFormRef = useRef()
-  
+
 
 
   useEffect(() => {
@@ -107,7 +100,7 @@ const App = () => {
           <Logout onClick={() => setUser(null)} />
         </p>
         <Toggleable buttonLabel='new blog' ref={blogFormRef}>
-          <BlogForm blogSubmit={blogSubmit} />
+          <BlogForm createBlog={createBlog} />
         </Toggleable>
         <Blogs blogs={blogs} />
       </div>
