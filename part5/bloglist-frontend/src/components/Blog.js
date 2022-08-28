@@ -36,7 +36,7 @@ const Blog = ({ blog }) => {
     <div style={blogStyle}>
       <div>
         {blog.title} {blog.author}
-        <button name='view' onClick={() => setView(!view)}>view</button>
+        <button name='view' onClick={() => setView(!view)}>{view ? 'hide' : 'view'}</button>
       </div>
       <div style={visibility}>
         <p>{blog.url}</p>
