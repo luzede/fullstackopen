@@ -1,5 +1,6 @@
-import { useState } from "react"
-import blogService from "../services/blogs"
+/* eslint-disable no-useless-catch */
+import { useState } from 'react'
+import blogService from '../services/blogs'
 
 const Blog = ({ blog, setBlogs, blogs, userId }) => {
   const blogStyle = {
@@ -23,7 +24,7 @@ const Blog = ({ blog, setBlogs, blogs, userId }) => {
           title: blog.title,
           url: blog.url,
         })
-      setLikes(updatedBlog.likes)  
+      setLikes(updatedBlog.likes)
     }
     catch(err) {
       throw err
@@ -35,8 +36,8 @@ const Blog = ({ blog, setBlogs, blogs, userId }) => {
       if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
         await blogService.del(blog.id)
         setBlogs(blogs.filter(b => (
-            b.id !== blog.id
-          )))
+          b.id !== blog.id
+        )))
       }
     }
     catch (err) {
@@ -60,7 +61,7 @@ const Blog = ({ blog, setBlogs, blogs, userId }) => {
           ? <button name='delete' onClick={deleteBlog}>delete</button>
           : null
         }
-        
+
       </div>
     </div>
   )

@@ -9,13 +9,13 @@ import Notification from './components/Notification'
 import Toggleable from './components/Toggleable'
 
 const App = () => {
-  const [notification, setNotification] = useState(null);
+  const [notification, setNotification] = useState(null)
   //blogs
   const [blogs, setBlogs] = useState([])
   // login
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [user, setUser] = useState(null);
+  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
+  const [user, setUser] = useState(null)
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -27,7 +27,7 @@ const App = () => {
         event.target[0].value.toLowerCase(),
         event.target[1].value
       )
-      setUser(user);
+      setUser(user)
       blogService.setToken(user.token)
       window.localStorage.setItem('user', JSON.stringify(user))
     }
@@ -77,7 +77,7 @@ const App = () => {
     )
   }, [])
   useEffect(() => {
-    const u = window.localStorage.getItem('user');
+    const u = window.localStorage.getItem('user')
     if (u) {
       setUser(JSON.parse(u))
       blogService.setToken((JSON.parse(u)).token)

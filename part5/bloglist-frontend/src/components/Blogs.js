@@ -1,6 +1,6 @@
 import Blog from './Blog'
 
-const Blogs = ({blogs, setBlogs, userId}) => {
+const Blogs = ({ blogs, setBlogs, userId }) => {
   return (
     <>
       {blogs.map(blog =>
