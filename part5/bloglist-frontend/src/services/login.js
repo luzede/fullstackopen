@@ -7,7 +7,7 @@ const login = async (username, password) => {
     username,
     password
   })
-  const user = await userService.getUser(username);
+  const user = await userService.getUser(username)
 
   return {
     ...response.data,
@@ -20,4 +20,4 @@ const o = {
   login,
 }
 
-export default o;
+export default o
