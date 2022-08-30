@@ -53,7 +53,7 @@ const Blog = ({ blog, setBlogs, blogs, userId }) => {
         {blog.title} {blog.author}
         <button name='view' onClick={() => setView(!view)}>{view ? 'hide' : 'view'}</button>
       </div>
-      <div style={visibility}>
+      <div style={visibility} id='hiddenInfo'>
         <p>{blog.url}</p>
         <p>{likes} <button name='likes' onClick={like}>like</button></p>
         <p>{blog.user.name}</p>
