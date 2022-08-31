@@ -48,5 +48,25 @@ test('shows hidden component when clicked the button view', async () => {
   expect(hiddenElement).toHaveStyle('display: none')
   await user.click(button)
   expect(hiddenElement).not.toHaveStyle('display: none')
+})
 
+test('like button got clicked twice', async () => {
+  const blog = {
+    author: 'Elly',
+    likes: 0,
+    title: 'Love',
+    url: 'elly.com',
+    user: { name: 'Luka', id: 'does not matter' },
+  }
+
+  const mockf = jest.fn()
+
+
+  render(<p>{blog.likes} <button name='likes' onClick={mockf}>like</button></p>)
+
+  const user = userEvent.setup()
+  const likeButton = screen.getByText('like')
+  await user.click(likeButton)
+  await user.click(likeButton)
+  expect(mockf.mock.calls).toHaveLength(2)
 })
