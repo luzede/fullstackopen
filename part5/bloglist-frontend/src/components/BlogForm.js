@@ -6,12 +6,12 @@ const BlogForm = ({ createBlog }) => {
   const [url, setUrl] = useState('')
 
   const blogSubmit = async (event) => {
+    console.log(event)
     event.preventDefault()
-    const target = event.target
     const blog = {
-      title: target[0].value,
-      author: target[1].value,
-      url: target[2].value,
+      title,
+      author,
+      url
     }
     await createBlog(blog)
     setTitle('')
@@ -26,17 +26,17 @@ const BlogForm = ({ createBlog }) => {
       <form onSubmit={blogSubmit}>
         <div>
         title:
-          <input type="text" value={title} name="title" onChange={({ target }) => setTitle(target.value)} required />
+          <input id='1' type="text" value={title} name="title" onChange={({ target }) => setTitle(target.value)} required />
         </div>
         <div>
         author:
-          <input type="text" value={author} name="author" onChange={({ target }) => setAuthor(target.value)} required />
+          <input id='2' type="text" value={author} name="author" onChange={({ target }) => setAuthor(target.value)} required />
         </div>
         <div>
         url:
-          <input type="text" value={url} name="url" onChange={({ target }) => setUrl(target.value)} required />
+          <input id='3' type="text" value={url} name="url" onChange={({ target }) => setUrl(target.value)} required />
         </div>
-        <button type="submit" value="create">create</button>
+        <button id='createButton' type="submit" value="create">create</button>
       </form>
     </>
   )
