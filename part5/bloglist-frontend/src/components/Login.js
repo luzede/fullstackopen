@@ -25,7 +25,7 @@ const Login = ({ handleLogin, username, password, setUsername, setPassword }) =>
             required
           />
         </div>
-        <button type="submit" value="login">login</button>
+        <button type="submit" value="login" id="login-button">login</button>
       </form>
     </>
   )

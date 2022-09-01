@@ -61,7 +61,6 @@ blogsRouter.delete('/:id', async (request, response) => {
       error: 'no permission, not the owner',
     });
   }
-  console.log('hello world');
   await Blog.findByIdAndDelete(request.params.id);
   const userDocument = await User.findById(user.id);
   userDocument.blogs = userDocument.blogs.slice().filter((blogId) => blogId.toString() !== blog.id);
