@@ -51,11 +51,11 @@ const Blog = ({ blog, setBlogs, blogs, userId }) => {
     <div style={blogStyle} className='blog'>
       <div>
         {blog.title} {blog.author}
-        <button name='view' id='view-button' onClick={() => setView(!view)}>{view ? 'hide' : 'view'}</button>
+        <button name='view' className='view-button' onClick={() => setView(!view)}>{view ? 'hide' : 'view'}</button>
       </div>
       <div style={visibility} id='hiddenInfo'>
         <p>{blog.url}</p>
-        <p>{likes} <button name='likes' id='like-button' onClick={like}>like</button></p>
+        <p>{likes} <button name='likes' id='like-button' className='like-button' onClick={like}>like</button></p>
         <p>{blog.user.name}</p>
         {userId === blog.user.id
           ? <button name='delete' id='delete-button' onClick={deleteBlog}>delete</button>

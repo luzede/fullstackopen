@@ -101,6 +101,41 @@ describe('blog list app', function () {
       cy.get('html').should('not.contain', 'Love is in the air Elly Zonaris')
     })
 
-    // it('blogs are sorted in descending order of likes')
+    it.only('blogs are sorted in descending order of likes', function() {
+      const oneBlog = {
+        title: 'Love is in the air',
+        author: 'Elly Zonaris',
+        likes: 0,
+        url: 'ellyzonaris.com'
+      }
+      const token = JSON.parse(window.localStorage.getItem('user')).token
+      cy.request({
+        method: 'POST',
+        url: 'http://localhost:3000/api/blogs',
+        headers: {
+          Authorization: `bearer ${token}`
+        },
+        body: oneBlog
+      })
+      const twoBlog = {
+        title: 'Another one',
+        author: 'Elly Zonaris',
+        likes: 0,
+        url: 'ellyzonaris.com'
+      }
+      cy.request({
+        method: 'POST',
+        url: 'http://localhost:3000/api/blogs',
+        headers: {
+          Authorization: `bearer ${token}`
+        },
+        body: twoBlog
+      })
+      cy.visit('http://localhost:3000/api/blogs')
+      cy.get('.view-button').eq(1).click()
+      cy.get('.like-button').eq(1).click()
+      cy.visit('http://localhost:3000/api/blogs')
+      cy.get('.blog').eq(0).should('contain', 'Another one Elly Zonaris')
+    })
   })
 })
