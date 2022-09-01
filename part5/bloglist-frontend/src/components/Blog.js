@@ -48,7 +48,7 @@ const Blog = ({ blog, setBlogs, blogs, userId }) => {
   const visibility = { display: view ? '' : 'none' }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <div>
         {blog.title} {blog.author}
         <button name='view' id='view-button' onClick={() => setView(!view)}>{view ? 'hide' : 'view'}</button>

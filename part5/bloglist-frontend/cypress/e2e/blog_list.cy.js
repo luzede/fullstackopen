@@ -35,6 +35,15 @@ describe('blog list app', function () {
     beforeEach(function () {
       cy.request('POST', 'http://localhost:3003/api/login', { username: 'elly', password: 'together' })
         .then(response => window.localStorage.setItem('user', JSON.stringify(response.body)))
+      cy.request('GET', 'http://localhost:3003/api/users')
+        .then(response => {
+          const parsedData = JSON.parse(window.localStorage.getItem('user'))
+          const user = {
+            ...parsedData,
+            id: response.body[0].id
+          }
+          window.localStorage.setItem('user', JSON.stringify(user))
+        })
       cy.visit('http://localhost:3000')
     })
 
@@ -69,5 +78,29 @@ describe('blog list app', function () {
       cy.get('#like-button').click()
       cy.contains('1')
     })
+
+    it('blog creator can delete the blog', function() {
+      const blog = {
+        title: 'Love is in the air',
+        author: 'Elly Zonaris',
+        likes: 0,
+        url: 'ellyzonaris.com'
+      }
+      const token = JSON.parse(window.localStorage.getItem('user')).token
+      cy.request({
+        method: 'POST',
+        url: 'http://localhost:3000/api/blogs',
+        headers: {
+          Authorization: `bearer ${token}`
+        },
+        body: blog
+      })
+      cy.visit('http://localhost:3000/api/blogs')
+      cy.get('#view-button').click()
+      cy.get('#delete-button').click()
+      cy.get('html').should('not.contain', 'Love is in the air Elly Zonaris')
+    })
+
+    // it('blogs are sorted in descending order of likes')
   })
 })
