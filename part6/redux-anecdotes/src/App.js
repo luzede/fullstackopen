@@ -6,6 +6,16 @@ const App = () => {
 
   const vote = (id) => {
     console.log('vote', id)
+    const anecdote = anecdotes.find(a => a.id === id)
+    const newAnecdote = {
+      ...anecdote,
+      votes: anecdote.votes + 1
+    }
+    const newAnecdotes = anecdotes.map(a => a.id !== id ? a : newAnecdote)
+    dispatch({
+      type: 'VOTE',
+      data: newAnecdotes
+    })
   }
 
   return (
