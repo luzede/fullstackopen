@@ -26,6 +26,9 @@ const reducer = (state = initialState, action) => {
   switch(action.type) {
     case 'VOTE':
       return action.data
+    case 'CREATE':
+      const anecdote = asObject(action.data.content)
+      return [...state, anecdote]
     default:
       return state
   }
