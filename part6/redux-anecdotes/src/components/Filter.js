@@ -9,7 +9,7 @@ const Filter = () => {
 
   return (
     <>
-    <input value={filter} onChange={handleChange}/>
+    <p>filter <input value={filter} onChange={handleChange}/></p>
     </>
   )
 }
