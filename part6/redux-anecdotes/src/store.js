@@ -1,11 +1,23 @@
-import { configureStore } from '@reduxjs/toolkit'
-import anecdoteReducer from './reducers/anecdoteReducer'
+//import { configureStore } from '@reduxjs/toolkit'
+import anecdoteReducer, { voteAnecdote, createAnecdote }from './reducers/anecdoteReducer'
+import notificationReducer from './reducers/notificationReducer'
+import { combineReducers, createStore } from 'redux'
 
-const store = configureStore({
-  reducer: {
-    anecdotes: anecdoteReducer,
-  }
+
+console.log(voteAnecdote);
+console.log(createAnecdote);
+const reducers = combineReducers({
+  anecdotes: anecdoteReducer,
+  notification: notificationReducer,
 })
+
+const store = createStore(reducers)
+// let store = configureStore({
+//   reducer: {
+//     anecdotes: anecdoteReducer,
+//     notification: notificationReducer,
+//   }
+// })
 
 
 export default store;
