@@ -4,7 +4,9 @@ import { useSelector, useDispatch } from "react-redux"
 
 const AnecdoteList = () => {
   const dispatch = useDispatch()
-  const anecdotes = useSelector(state => [...state.anecdotes].sort((a, b) => b.votes - a.votes))
+  const filter = useSelector(state => state.filter)
+  const anecdotes = useSelector(state => [...state.anecdotes].sort((a, b) => b.votes - a.votes)
+    .filter(a => a.content.includes(filter)))
 
   const vote = (id) => {
     dispatch({type: 'anecdotes/voteAnecdote', payload: id})
