@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux"
+import s from '../services/anecdotes'
 
 
 
@@ -9,6 +10,9 @@ const AnecdoteList = () => {
     .filter(a => a.content.includes(filter)))
 
   const vote = (id) => {
+    s.vote(id).then(() => {
+      console.log('upvoted');
+    })
     dispatch({type: 'anecdotes/voteAnecdote', payload: id})
     dispatch({type: 'notification/changeNotification', payload: `you voted '${anecdotes.find(a => a.id === id).content}`})
     dispatch({type: 'notification/changeVisibility', payload: ''})
