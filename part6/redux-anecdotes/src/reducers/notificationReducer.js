@@ -13,14 +13,23 @@ const notificationSlice = createSlice({
       })
     },
     changeVisibility(state, action) {
-      //Empty string to show and 'none' to hide
-      return {
+      return ({
         ...state,
         display: action.payload
-      }
-    }
+      })
+    },
   }
 })
 
-export const { changeNotification } = notificationSlice.actions
+export const setNotification = (message, seconds) => {
+  return async (dispatch) => {
+    dispatch(changeNotification(message))
+    dispatch(changeVisibility(''))
+    setTimeout(() => {
+      dispatch(changeVisibility('none'))
+    }, seconds*1000)
+  }
+}
+
+export const { changeNotification, changeVisibility } = notificationSlice.actions
 export default notificationSlice.reducer
