@@ -1,4 +1,4 @@
-import { useState } from "react"
+
 import { useField } from "../hooks/index.js"
 
 const CreateNew = (props) => {
@@ -14,6 +14,12 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+  }
+
+  const handleReset = () => {
+    content.reset()
+    author.reset()
+    info.reset()
   }
 
   return (
@@ -32,7 +38,8 @@ const CreateNew = (props) => {
           url for more info
           <input name='info' {...info} />
         </div>
-        <button>create</button>
+        <button type='submit'>create</button>
+        <button onClick={handleReset} type='button'>reset</button>
       </form>
     </div>
   )
