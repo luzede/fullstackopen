@@ -8,8 +8,13 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Toggleable from './components/Toggleable'
 
+import { useDispatch, useSelector } from 'react-redux'
+import { setNotification } from './reducers/notificationReducer'
+
 const App = () => {
-  const [notification, setNotification] = useState(null)
+  const dispatch = useDispatch()
+  const state = useSelector(state => state)
+  console.log(state)
   //blogs
   const [blogs, setBlogs] = useState([])
   // login
@@ -32,13 +37,7 @@ const App = () => {
       window.localStorage.setItem('user', JSON.stringify(user))
     }
     catch (err) {
-      setNotification({
-        type: 'error',
-        message: err.response.data.error,
-      })
-      setTimeout(() => {
-        setNotification(null)
-      }, 5000)
+      dispatch(setNotification(err.response.data.error, 'error', 5))
     }
   }
 
@@ -88,13 +87,13 @@ const App = () => {
     (user === null)
       ?
       <div>
-        {notification === null ? null : <Notification notification={notification} />}
+        <Notification />
         <Login username={username} setUsername={setUsername} password={password} setPassword={setPassword} handleLogin={handleLogin} />
       </div>
       :
       <div>
         <h2><b>blogs</b></h2>
-        {notification === null ? null : <Notification notification={notification} />}
+        <Notification />
         <p>
           {user.name} logged in
           <Logout onClick={() => setUser(null)} />
