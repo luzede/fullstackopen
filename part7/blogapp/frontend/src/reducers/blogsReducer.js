@@ -51,7 +51,7 @@ export const deleteBlog = (id) => {
 export const initializeBlogs = () => {
   return async (dispatch) => {
     const blogs = await blogService.getAll()
-    dispatch(setBlogs(blogs))
+    dispatch(setBlogs(blogs.slice().sort((a, b) => (b.likes - a.likes))))
   }
 }
 

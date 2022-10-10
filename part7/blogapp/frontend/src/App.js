@@ -1,46 +1,26 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Blogs from './components/Blogs'
 import blogService from './services/blogs'
-import loginService from './services/login'
 import Login from './components/Login'
 import Logout from './components/Logout'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Toggleable from './components/Toggleable'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
-import { initializeBlogs, setBlogs, createBlog } from './reducers/blogsReducer'
+import { initializeBlogs, createBlog } from './reducers/blogsReducer'
+import { setUser } from './reducers/userReducer'
+
 
 const App = () => {
   const dispatch = useDispatch()
 
+  const user = useSelector(state => state.user)
+
   useEffect(() => {
     dispatch(initializeBlogs())
   }, [dispatch])
-  // login
-  const [password, setPassword] = useState('')
-  const [username, setUsername] = useState('')
-  const [user, setUser] = useState(null)
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    // 0 - username
-    // 1 - passowrd
-    // 2 - button
-    try {
-      const user = await loginService.login(
-        event.target[0].value.toLowerCase(),
-        event.target[1].value
-      )
-      setUser(user)
-      blogService.setToken(user.token)
-      window.localStorage.setItem('user', JSON.stringify(user))
-    }
-    catch (err) {
-      dispatch(setNotification(err.response.data.error, 'error', 5))
-    }
-  }
 
   const create_Blog = async (object) => {
     try {
@@ -55,27 +35,20 @@ const App = () => {
 
   const blogFormRef = useRef()
 
-
-
-  useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs.slice().sort((a, b) => (b.likes - a.likes)))
-    )
-  }, [])
   useEffect(() => {
     const u = window.localStorage.getItem('user')
     if (u) {
-      setUser(JSON.parse(u))
+      dispatch(setUser(JSON.parse(u)))
       blogService.setToken((JSON.parse(u)).token)
     }
-  }, [])
+  }, [dispatch])
 
   return (
     (user === null)
       ?
       <div>
         <Notification />
-        <Login username={username} setUsername={setUsername} password={password} setPassword={setPassword} handleLogin={handleLogin} />
+        <Login />
       </div>
       :
       <div>

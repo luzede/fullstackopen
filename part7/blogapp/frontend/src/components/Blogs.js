@@ -7,7 +7,7 @@ const Blogs = ({ userId }) => {
   return (
     <>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} blogs={blogs} userId={userId} />
+        <Blog key={blog.id} blog={blog} userId={userId} />
       )}
     </>
   )
