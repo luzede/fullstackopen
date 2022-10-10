@@ -8,15 +8,16 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Toggleable from './components/Toggleable'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
+import { initializeBlogs, setBlogs, createBlog } from './reducers/blogsReducer'
 
 const App = () => {
   const dispatch = useDispatch()
-  const state = useSelector(state => state)
-  console.log(state)
-  //blogs
-  const [blogs, setBlogs] = useState([])
+
+  useEffect(() => {
+    dispatch(initializeBlogs())
+  }, [dispatch])
   // login
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
@@ -41,30 +42,16 @@ const App = () => {
     }
   }
 
-  const createBlog = async (object) => {
+  const create_Blog = async (object) => {
     try {
-      const addedBlog = await blogService.create(object)
-      setBlogs(blogs.concat(addedBlog))
+      dispatch(createBlog(object))
       blogFormRef.current.toggleVisibility()
-      setNotification({
-        type: 'success',
-        message: `a new blog ${addedBlog.title} by ${addedBlog.author} added`,
-      })
-      setTimeout(() => {
-        setNotification(null)
-      }, 5000)
+      dispatch(setNotification(`a new blog ${object.title} by ${object.author} added`, 'success', 5))
     }
     catch (err) {
-      setNotification({
-        type: 'error',
-        message: err.response.data.error,
-      })
-      setTimeout(() => {
-        setNotification(null)
-      }, 5000)
+      dispatch(setNotification(err.response.data.error, 'error', 5))
     }
   }
-
 
   const blogFormRef = useRef()
 
@@ -99,9 +86,9 @@ const App = () => {
           <Logout onClick={() => setUser(null)} />
         </p>
         <Toggleable buttonLabel='new blog' ref={blogFormRef}>
-          <BlogForm createBlog={createBlog} />
+          <BlogForm createBlog={create_Blog} />
         </Toggleable>
-        <Blogs blogs={blogs} setBlogs={setBlogs} userId={user.id} />
+        <Blogs userId={user.id} />
       </div>
   )
 }
