@@ -6,8 +6,15 @@ const getUser = async (username) => {
   return user
 }
 
+const getAll = async () => {
+  const response = await axios.get('/api/users')
+  const users = response.data
+  return users
+}
+
 const o = {
   getUser,
+  getAll,
 }
 
 export default o

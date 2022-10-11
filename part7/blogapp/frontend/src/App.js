@@ -6,11 +6,16 @@ import Logout from './components/Logout'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Toggleable from './components/Toggleable'
+import Users from './components/Users'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs, createBlog } from './reducers/blogsReducer'
 import { setUser } from './reducers/userReducer'
+
+import {
+  Routes, Route
+} from 'react-router-dom'
 
 
 const App = () => {
@@ -58,10 +63,17 @@ const App = () => {
           {user.name} logged in
           <Logout onClick={() => setUser(null)} />
         </p>
-        <Toggleable buttonLabel='new blog' ref={blogFormRef}>
-          <BlogForm createBlog={create_Blog} />
-        </Toggleable>
-        <Blogs userId={user.id} />
+        <Routes>
+          <Route path='/users' element={<Users />} />
+          <Route path='/' element={
+            <>
+              <Toggleable buttonLabel='new blog' ref={blogFormRef}>
+                <BlogForm createBlog={create_Blog} />
+              </Toggleable>
+              <Blogs userId={user.id} />
+            </>
+          } />
+        </Routes>
       </div>
   )
 }
