@@ -7,6 +7,7 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import Toggleable from './components/Toggleable'
 import Users from './components/Users'
+import User from './components/User'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
@@ -14,7 +15,7 @@ import { initializeBlogs, createBlog } from './reducers/blogsReducer'
 import { setUser } from './reducers/userReducer'
 
 import {
-  Routes, Route
+  Routes, Route, useMatch
 } from 'react-router-dom'
 
 
@@ -48,6 +49,10 @@ const App = () => {
     }
   }, [dispatch])
 
+
+  const userMatch = useMatch('/users/:id')
+  const userMatchId = userMatch ? userMatch.params.id : null
+
   return (
     (user === null)
       ?
@@ -65,6 +70,7 @@ const App = () => {
         </p>
         <Routes>
           <Route path='/users' element={<Users />} />
+          <Route path='/users/:id' element={<User id={userMatchId} />} />
           <Route path='/' element={
             <>
               <Toggleable buttonLabel='new blog' ref={blogFormRef}>
