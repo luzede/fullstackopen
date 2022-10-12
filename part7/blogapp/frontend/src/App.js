@@ -17,7 +17,7 @@ import { setUser } from './reducers/userReducer'
 import { initializeUsers } from './reducers/usersReducer'
 
 import {
-  Routes, Route, useMatch
+  Routes, Route, useMatch, Link
 } from 'react-router-dom'
 
 
@@ -70,10 +70,18 @@ const App = () => {
       <div>
         <h2><b>blogs</b></h2>
         <Notification />
-        <p>
-          {user.name} logged in
-          <Logout onClick={() => setUser(null)} />
-        </p>
+        <div style={{ display: 'flex', direction: 'row', gap: 10 }}>
+          <div>
+            <Link to={'/'} >blogs</Link>
+          </div>
+          <div>
+            <Link to={'/users'} >users</Link>
+          </div>
+          <div>
+            {user.name} logged in
+            <Logout onClick={() => setUser(null)} />
+          </div>
+        </div>
         <Routes>
           <Route path='/users' element={<Users />} />
           <Route path='/users/:id' element={<User id={userMatchId} />} />
