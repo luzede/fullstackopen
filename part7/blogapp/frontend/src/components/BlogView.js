@@ -1,6 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { updateBlog } from '../reducers/blogsReducer'
 
+import CommentsView from '../components/CommentsView'
+
 const BlogView = ({ id }) => {
   const dispatch = useDispatch()
   const blog = useSelector(state => state.blogs.find(b => b.id === id))
@@ -25,6 +27,7 @@ const BlogView = ({ id }) => {
         <button onClick={handleClick}>like</button>
       </div>
       <p>added by {blog.user.name}</p>
+      <CommentsView blog={blog} />
     </div>
   )
 
