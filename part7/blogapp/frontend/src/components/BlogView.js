@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { updateBlog } from '../reducers/blogsReducer'
+import { Button } from 'react-bootstrap'
 
 import CommentsView from '../components/CommentsView'
 
@@ -24,7 +25,7 @@ const BlogView = ({ id }) => {
       <a href={blog.url}>{blog.url}</a>
       <div>
         {blog.likes} likes
-        <button onClick={handleClick}>like</button>
+        <Button onClick={handleClick}>like</Button>
       </div>
       <p>added by {blog.user.name}</p>
       <CommentsView blog={blog} />

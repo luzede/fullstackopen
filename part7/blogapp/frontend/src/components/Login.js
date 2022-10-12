@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { login } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import { Button, Form } from 'react-bootstrap'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -33,7 +34,7 @@ const Login = () => {
   return (
     <>
       <h2><b>login to application</b></h2>
-      <form onSubmit={handleLogin}>
+      <Form onSubmit={handleLogin}>
         <div>
           username
           <input
@@ -54,8 +55,8 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit" value="login" id="login-button">login</button>
-      </form>
+        <Button type="submit" value="login" id="login-button">login</Button>
+      </Form>
     </>
   )
 }

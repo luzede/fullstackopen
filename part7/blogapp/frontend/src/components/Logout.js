@@ -1,10 +1,12 @@
+import { Button } from 'react-bootstrap'
+
 const Logout = ({ onClick }) => {
   const logout = () => {
     window.localStorage.clear()
     onClick()
   }
   return (
-    <button onClick={logout}>logout</button>
+    <Button onClick={logout}>logout</Button>
   )
 }
 

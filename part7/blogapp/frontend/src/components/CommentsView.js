@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { updateBlog } from '../reducers/blogsReducer'
+import { Button, Form } from 'react-bootstrap'
 
 
 const CommentsView = ({ blog }) => {
@@ -20,10 +21,10 @@ const CommentsView = ({ blog }) => {
   return (
     <div>
       <p><b>comments</b></p>
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <input type='text' name='comment' required />
-        <button type='submit' name='comment' >submit</button>
-      </form>
+        <Button type='submit' name='comment' >submit</Button>
+      </Form>
       <ul>
         {blog.comments.map((comment, index) => (
           <li key={index}>

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { deleteBlog, updateBlog } from '../reducers/blogsReducer'
 import { Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 const Blog = ({ blog, userId }) => {
   const blogStyle = {
@@ -62,14 +63,14 @@ const Blog = ({ blog, userId }) => {
         <Link to={`/blogs/${blog.id}`} >
           {blog.title} {blog.author}
         </Link>
-        <button name='view' className='view-button' onClick={() => setView(!view)}>{view ? 'hide' : 'view'}</button>
+        <Button variant='primary' name='view' className='view-button' onClick={() => setView(!view)}>{view ? 'hide' : 'view'}</Button>
       </div>
       <div style={visibility} id='hiddenInfo'>
         <p>{blog.url}</p>
         <p>{blog.likes} <button name='likes' id='like-button' className='like-button' onClick={like}>like</button></p>
         <p>{blog.user.name}</p>
         {userId === blog.user.id
-          ? <button name='delete' id='delete-button' onClick={delete_Blog}>delete</button>
+          ? <Button variant='primary' name='delete' id='delete-button' onClick={delete_Blog}>delete</Button>
           : null
         }
 
