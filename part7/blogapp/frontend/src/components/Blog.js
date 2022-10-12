@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { deleteBlog, updateBlog } from '../reducers/blogsReducer'
+import { Link } from 'react-router-dom'
 
 const Blog = ({ blog, userId }) => {
   const blogStyle = {
@@ -58,7 +59,9 @@ const Blog = ({ blog, userId }) => {
   return (
     <div style={blogStyle} className='blog'>
       <div>
-        {blog.title} {blog.author}
+        <Link to={`/blogs/${blog.id}`} >
+          {blog.title} {blog.author}
+        </Link>
         <button name='view' className='view-button' onClick={() => setView(!view)}>{view ? 'hide' : 'view'}</button>
       </div>
       <div style={visibility} id='hiddenInfo'>

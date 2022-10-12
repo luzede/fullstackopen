@@ -1,16 +1,9 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { useEffect } from 'react'
-import { initializeUsers } from '../reducers/usersReducer'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 
 const Users = () => {
-  const dispatch = useDispatch()
   const users = useSelector(state => state.users.map(user => ({ name: user.name, numberOfBlogs: user.blogs.length, id: user.id })))
-
-  useEffect(() => {
-    dispatch(initializeUsers())
-  }, [dispatch])
 
 
   return (

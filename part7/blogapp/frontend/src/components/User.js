@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 const User = ({ id }) => {
   const user = useSelector(state => state.users.find(user => user.id === id))
 
+  if (!user) return null
   return (
     <div>
       <p><b>{user.name}</b></p>

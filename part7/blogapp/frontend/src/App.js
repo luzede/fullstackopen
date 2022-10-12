@@ -8,11 +8,13 @@ import Notification from './components/Notification'
 import Toggleable from './components/Toggleable'
 import Users from './components/Users'
 import User from './components/User'
+import BlogView from './components/BlogView'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs, createBlog } from './reducers/blogsReducer'
 import { setUser } from './reducers/userReducer'
+import { initializeUsers } from './reducers/usersReducer'
 
 import {
   Routes, Route, useMatch
@@ -26,6 +28,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [dispatch])
 
   const create_Blog = async (object) => {
@@ -53,6 +56,9 @@ const App = () => {
   const userMatch = useMatch('/users/:id')
   const userMatchId = userMatch ? userMatch.params.id : null
 
+  const blogMatch = useMatch('/blogs/:id')
+  const blogMatchId = blogMatch ? blogMatch.params.id : null
+
   return (
     (user === null)
       ?
@@ -79,6 +85,7 @@ const App = () => {
               <Blogs userId={user.id} />
             </>
           } />
+          <Route path='/blogs/:id' element={<BlogView id={blogMatchId} />} />
         </Routes>
       </div>
   )
