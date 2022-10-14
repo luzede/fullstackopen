@@ -17,11 +17,11 @@ let authors = [
     id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
     born: 1821
   },
-  { 
+  {
     name: 'Joshua Kerievsky', // birthyear not known
     id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
   },
-  { 
+  {
     name: 'Sandi Metz', // birthyear not known
     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
   },
@@ -69,7 +69,7 @@ let books = [
     author: 'Joshua Kerievsky',
     id: "afa5de01-344d-11e9-a414-719c6709cf3e",
     genres: ['refactoring', 'patterns']
-  },  
+  },
   {
     title: 'Practical Object-Oriented Design, An Agile Primer Using Ruby',
     published: 2012,
@@ -106,7 +106,7 @@ const typeDefs = gql`
       title: String!
       published: Int!
       author: String!
-      genres: [String!]!
+      genres: [String]!
     ): Book!
     editAuthor(name: String!, born: Int!): Author
   }
@@ -154,17 +154,21 @@ const resolvers = {
         id: uuid()
       }
       books = books.concat(book)
-      authors = authors.concat({
-        name: book.author,
-        id: uuid()
-      })
 
-      return book
+      if (authors.find(a => a.name === book.author)) return book
+      else {
+        authors = authors.concat({
+          name: book.author,
+          id: uuid()
+        })
+
+        return book
+      }
     },
     editAuthor: (root, args) => {
       const author = authors.find(a => a.name === args.name)
       if (!author) return null
-      authors = authors.filter(a => a.name === author.name ? {...author, born: args.born } : a)
+      authors = authors.filter(a => a.name === author.name ? { ...author, born: args.born } : a)
       return {
         ...author,
         born: args.born
