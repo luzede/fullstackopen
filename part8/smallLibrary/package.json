@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^3.10.3",
-    "gql": "^1.1.2"
+    "gql": "^1.1.2",
+    "uuid": "^9.0.0"
   }
 }
