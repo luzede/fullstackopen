@@ -168,7 +168,7 @@ const resolvers = {
     editAuthor: (root, args) => {
       const author = authors.find(a => a.name === args.name)
       if (!author) return null
-      authors = authors.filter(a => a.name === author.name ? { ...author, born: args.born } : a)
+      authors = authors.map(a => a.name === author.name ? { ...author, born: args.born } : a)
       return {
         ...author,
         born: args.born
