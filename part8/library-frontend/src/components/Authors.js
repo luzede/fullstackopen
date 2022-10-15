@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from '@apollo/client'
 import { useState } from 'react'
 import { ALL_AUTHORS, SET_AUTHORS_BIRTH } from '../queries'
+import Select from 'react-select'
 
 const Authors = (props) => {
   const allAuthorsQuery = useQuery(ALL_AUTHORS)
@@ -24,8 +25,6 @@ const Authors = (props) => {
       }
     })
   }
-
-
 
   if (!props.show) {
     return null
@@ -57,7 +56,11 @@ const Authors = (props) => {
         <div>
           <form onSubmit={submit} id="editAuthorBirthForm">
             <div>
-              name: <input type='text' name='name' value={name} onChange={(e) => setName(e.target.value)} required/>
+              <Select
+                onChange={(selected) => setName(selected.value)}
+                defaultValue={name}
+                options={allAuthorsQuery.data.allAuthors.map(a => ({ value: a.name, label: a.name }))}
+              />
             </div>
             <div>
               born: <input type='number' name='year' value={year} onChange={(e) => setYear(e.target.value)} required/>
