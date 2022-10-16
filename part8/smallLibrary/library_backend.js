@@ -1,5 +1,17 @@
 const { ApolloServer, gql } = require('apollo-server')
 const { v1: uuid } = require('uuid')
+const mongoose = require('mongoose')
+const Book = require('./schemas/book')
+const Author = require('./schemas/author')
+const { MONGODB_URI } = require('./config')
+
+mongoose.connect(MONGODB_URI)
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.log(`Failed to connect:\n${error.message}`);
+  })
 
 let authors = [
   {
@@ -26,6 +38,7 @@ let authors = [
     id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
   },
 ]
+
 
 /*
  * Suomi:
@@ -114,7 +127,7 @@ const typeDefs = gql`
   type Book {
     title: String!
     published: Int!
-    author: String!
+    author: Author!
     id: ID!
     genres: [String!]!
   }
