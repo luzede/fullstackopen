@@ -57,16 +57,33 @@ const resolvers = {
     },
     allBooks: async (root, args) => {
       const { author, genre } = args
-      console.log(genre);
-      return Book.find({
-        // author: author._id,
-        // genres: {
-        //   $all: [genre]
-        // }
-      }).populate('author')
+      if (author && genre) {
+        return Book.find({
+          author: author._id,
+          genres: {
+            $all: [genre]
+          }
+        }).populate('author')
+      }
+      else if (author) {
+        return Book.find({
+          author: author._id
+        }).populate('author')
+      }
+      else if (genre) {
+        return Book.find({
+          genres: {
+            $all: [genre]
+          }
+        }).populate('author')
+      }
+      else {
+        return Book.find({}).populate('author')
+      }
+      
     },
-    allAuthors: () => {
-      return authors
+    allAuthors: async () => {
+      return Author.find({})
     }
   },
 
