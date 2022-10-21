@@ -8,8 +8,9 @@ const Authors = (props) => {
   const [setAuthorsBirthMutation] = useMutation(SET_AUTHORS_BIRTH, {
     onError: (error) => {
       console.log(error);
+      console.log(error);
     },
-    refetchQueries: [{ query: ALL_AUTHORS}]
+    refetchQueries: [{ query: ALL_AUTHORS }]
   })
 
   const [name, setName] = useState('')

@@ -1,4 +1,4 @@
-const { ApolloServer, gql, UserInputError } = require('apollo-server')
+const { ApolloServer, gql, UserInputError, AuthenticationError } = require('apollo-server')
 const mongoose = require('mongoose')
 const Book = require('./schemas/book')
 const Author = require('./schemas/author')
@@ -119,7 +119,13 @@ const resolvers = {
   },
 
   Mutation: {
-    addBook: async (root, args) => {
+    addBook: async (root, args, context) => {
+      const currentUser = context.currentUser
+      if (!currentUser) {
+        throw new AuthenticationError("Not authenticated")
+      }
+
+
       const authorName = args.author
       let author = await Author.findOne({ name: authorName })
       if (!author) {
@@ -137,7 +143,12 @@ const resolvers = {
 
       return book.populate('author')
     },
-    editAuthor: async (root, args) => {
+    editAuthor: async (root, args, context) => {
+      const currentUser = context.currentUser
+      if (!currentUser) {
+        throw new AuthenticationError("Not authenticated")
+      }
+
       const authorName = args.name
       const born = args.born
       const author = await Author.findOne({ name: authorName })
