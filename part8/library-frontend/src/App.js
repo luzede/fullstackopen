@@ -4,6 +4,7 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
 import { useApolloClient } from '@apollo/client'
+import Recommendations from './components/Recommendations'
 
 const App = () => {
   const client = useApolloClient()
@@ -14,7 +15,7 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
   }
-  
+
   useEffect(() => {
     setToken(localStorage.getItem('authorization-token'))
   }, [])
@@ -24,16 +25,17 @@ const App = () => {
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
-        
+
         {
           token
-          ? <>
+            ? <>
               <button onClick={() => setPage('add')}>add book</button>
+              <button onClick={() => setPage('recommendations')} >recommendations</button>
               <button onClick={logout}>logout</button>
             </>
-          : <button onClick={() => setPage('login')}>login</button>
+            : <button onClick={() => setPage('login')}>login</button>
         }
-        
+
       </div>
 
       <Authors show={page === 'authors'} />
@@ -42,13 +44,16 @@ const App = () => {
 
       {
         token
-        ? <NewBook show={page === 'add'} />
-        : null
+          ? <>
+            <NewBook show={page === 'add'} />
+            <Recommendations show={page === 'recommendations'} />
+          </>
+          : null
       }
       {
         token
-        ? null
-        : <LoginForm show={page === 'login'} setToken={setToken} setPage={setPage} />
+          ? null
+          : <LoginForm show={page === 'login'} setToken={setToken} setPage={setPage} />
       }
     </div>
   )
