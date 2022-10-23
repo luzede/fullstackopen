@@ -80,7 +80,7 @@ const resolvers = {
         genres: args.genres
       })
 
-      pubsub.publish('BOOK_ADDED', { bookAdded: book })
+      pubsub.publish('BOOK_ADDED', { bookAdded: await book.populate('author') })
 
       return book.populate('author')
     },

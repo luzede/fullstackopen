@@ -3,8 +3,9 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
-import { useApolloClient } from '@apollo/client'
+import { useApolloClient, useSubscription } from '@apollo/client'
 import Recommendations from './components/Recommendations'
+import { BOOK_ADDED } from './queries'
 
 const App = () => {
   const client = useApolloClient()
@@ -15,6 +16,13 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
   }
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      const bookAdded = subscriptionData.data.bookAdded
+      alert(`New book "${bookAdded.title}" added`)
+    }
+  })
 
   useEffect(() => {
     setToken(localStorage.getItem('authorization-token'))
