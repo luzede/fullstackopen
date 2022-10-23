@@ -5,7 +5,7 @@ import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
 import { useApolloClient, useSubscription } from '@apollo/client'
 import Recommendations from './components/Recommendations'
-import { BOOK_ADDED } from './queries'
+import { BOOK_ADDED, ALL_BOOKS } from './queries'
 
 const App = () => {
   const client = useApolloClient()
@@ -17,11 +17,28 @@ const App = () => {
     client.resetStore()
   }
 
+  const updateCache = (cache, query, bookAdded) => {
+    const uniqByTitle = (a) => {
+      let seen = new Set()
+      return a.filter((item) => {
+        let k = item.title
+        return seen.has(k) ? false : seen.add(k)
+      })
+    }
+  
+    cache.updateQuery(query, ({ allBooks }) => {
+      return {
+        allBooks: uniqByTitle(allBooks.concat(bookAdded)),
+      }
+    })
+  }
+
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       const bookAdded = subscriptionData.data.bookAdded
       alert(`New book "${bookAdded.title}" added`)
-    }
+      updateCache(client.cache, { query: ALL_BOOKS }, bookAdded)
+    },
   })
 
   useEffect(() => {
