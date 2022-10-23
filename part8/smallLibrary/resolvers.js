@@ -4,7 +4,7 @@ const User = require('./schemas/user')
 const { UserInputError, AuthenticationError } = require('apollo-server')
 const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('./config')
-const { PubSub} = require('graphql-subscriptions')
+const { PubSub } = require('graphql-subscriptions')
 
 const pubsub = new PubSub()
 
@@ -69,8 +69,13 @@ const resolvers = {
       let author = await Author.findOne({ name: authorName })
       if (!author) {
         author = await Author.create({
-          name: authorName
+          name: authorName,
+          bookCount: 1
         })
+      }
+      else {
+        author.bookCount = author.bookCount + 1
+        await author.save()
       }
 
       const book = await Book.create({
@@ -134,11 +139,11 @@ const resolvers = {
     }
   },
 
-  Author: {
-    bookCount: async (root) => {
-      return Book.countDocuments({ author: root._id })
-    }
-  }
+  // Author: {
+  //   bookCount: async (root) => {
+  //     return Book.countDocuments({ author: root._id })
+  //   }
+  // }
 
 }
 

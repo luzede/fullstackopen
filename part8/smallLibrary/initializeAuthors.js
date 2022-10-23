@@ -43,7 +43,8 @@ Author.deleteMany({})
     console.log('Successfully deleted documents in "authors"');
     Author.insertMany(authors.map((a) => ({
       name: a.name,
-      born: a.born
+      born: a.born,
+      bookCount: 0
     })))
       .then((values) => {
         console.log('Successfully initialized "authors"');

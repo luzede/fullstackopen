@@ -70,6 +70,8 @@ mongoose.connect(MONGODB_URI)
   const booksWithAuthorId = await Promise.all(books.map(async (b) => {
     const author = await Author.findOne({ name: b.author })
     if (!author) return null
+    author.bookCount = author.bookCount + 1
+    await author.save()
     return {
       title: b.title,
       author: mongoose.Types.ObjectId(author._id.toString()),
