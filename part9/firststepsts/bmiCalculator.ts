@@ -1,4 +1,6 @@
 
+
+
 function calculateBmi(height: number, weight: number): string {
   const bmi = weight * 10000 / (height * height)
   if (bmi <= 18.5) {
@@ -18,4 +20,5 @@ function calculateBmi(height: number, weight: number): string {
   }
 }
 
-console.log(calculateBmi(180, 74))
+
+console.log(calculateBmi(Number(process.argv[2]), Number(process.argv[3])))

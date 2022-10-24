@@ -13,11 +13,6 @@ interface Result {
 const calculateExercises = (array: Array<number>, target: number): Result => {
   let total: number = 0
   let trainingDays: number = 0
-  
-  
-  
-  
-
   const periodLength: number = array.length
 
 
@@ -36,7 +31,6 @@ const calculateExercises = (array: Array<number>, target: number): Result => {
     : (rating === 3)
     ? "You did great"
     : "There was an error"
-  
 
   return {
     periodLength,
@@ -49,5 +43,18 @@ const calculateExercises = (array: Array<number>, target: number): Result => {
   }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+let array: Array<number> = []
+let target: number
+
+for (let i = 2; i < process.argv.length; i++) {
+  
+  if (i === process.argv.length - 1) {
+    target = Number(process.argv[i])
+    break
+  }
+  array.push(Number(process.argv[i]))
+}
+
+
+console.log(calculateExercises(array, target));
 
