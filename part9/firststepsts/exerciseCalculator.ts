@@ -44,16 +44,24 @@ const calculateExercises = (array: Array<number>, target: number): Result => {
 }
 
 let array: Array<number> = []
-let target: number
+let target: number = 0
 
-for (let i = 2; i < process.argv.length; i++) {
-  
-  if (i === process.argv.length - 1) {
-    target = Number(process.argv[i])
-    break
+try {
+  for (let i = 2; i < process.argv.length; i++) {
+    if (isNaN(Number(process.argv[i]))) throw new Error("Invalid input")
+    
+    if (i === process.argv.length - 1) {
+      target = Number(process.argv[i])
+      break
+    }
+    array.push(Number(process.argv[i]))
   }
-  array.push(Number(process.argv[i]))
+} catch(error: unknown) {
+  if (error instanceof Error) {
+    console.log(error.message);
+  }
 }
+
 
 
 console.log(calculateExercises(array, target));
