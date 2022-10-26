@@ -1,7 +1,5 @@
 
-
-
-function calculateBmi(height: number, weight: number): string {
+export function calculateBmi(height: number, weight: number): string {
   const bmi = weight * 10000 / (height * height);
   if (bmi <= 18.5) {
     return "Underweight (unhealthy weight)";
@@ -19,6 +17,3 @@ function calculateBmi(height: number, weight: number): string {
     throw new Error("Invalid input");
   }
 }
-
-
-console.log(calculateBmi(Number(process.argv[2]), Number(process.argv[3])));
