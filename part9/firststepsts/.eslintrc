@@ -23,6 +23,7 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "C:/Users/lukaz/Documents/GitHub/fullstackopen/part9/firststepsts"
   }
 }

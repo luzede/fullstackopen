@@ -30,16 +30,18 @@ app.get('/bmi', (req, res) => {
 });
 
 app.post('/exercises', (req, res) => {
-  
-  const { daily_exercises, target } = req.body
+  // eslint-disable-next-line
+  const { daily_exercises, target } = req.body;
+
   try {
-    res.status(200).json(calculateExercises(daily_exercises, target))
+    // eslint-disable-next-line
+    res.status(200).json(calculateExercises(daily_exercises, target));
   } catch {
     res.json({
       error: "malformatted parameters"
-    })
+    });
   }
-})
+});
 
 const PORT = 3003;
 
