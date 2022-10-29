@@ -5,14 +5,21 @@ export interface Diagnosis {
   latin?: string
 }
 
+interface Entry {
+  entry: string
+}
+
 export interface Patient {
   id: string,
   name: string,
   dateOfBirth: string,
   ssn: string,
   gender: Gender,
-  occupation: string
+  occupation: string,
+  entries: Entry[]
 }
+
+export type PublicPatient = Omit<Patient, "ssn" | "entries">;
 
 export type NewPatient = Omit<Patient, "id">;
 export type NewDiagnosis = Omit<Diagnosis, "id">;

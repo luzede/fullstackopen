@@ -1,10 +1,10 @@
 
-interface CoursePart {
+interface CoursePartBase {
   name: string,
-  exerciseCount: number
+  exerciseCount: number,
 }
 
-const Total = ({ courseParts }: {courseParts: CoursePart[]}): JSX.Element => {
+const Total = ({ courseParts }: {courseParts: CoursePartBase[]}): JSX.Element => {
   return (
     <div>
       <p>
