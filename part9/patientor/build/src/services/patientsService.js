@@ -8,6 +8,10 @@ const uuid_1 = require("uuid");
 const getAll = () => {
     return patients_1.default;
 };
+const getOne = (id) => {
+    const patient = patients_1.default.find((p) => p.id === id);
+    return patient;
+};
 const add = (p) => {
     const patient = Object.assign({ 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
@@ -17,5 +21,6 @@ const add = (p) => {
 };
 exports.default = {
     getAll,
+    getOne,
     add
 };

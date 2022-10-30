@@ -10,6 +10,16 @@ const router = express_1.default.Router();
 router.get('/', (_req, res) => {
     res.send(patientsService_1.default.getAll());
 });
+router.get('/:id', (req, res) => {
+    const id = req.params.id;
+    const patient = patientsService_1.default.getOne(id);
+    if (patient) {
+        return res.send(patient);
+    }
+    else {
+        return res.status(404).send('Patient not found');
+    }
+});
 router.post('/', (req, res) => {
     try {
         const newPatient = (0, utils_1.default)(req.body);

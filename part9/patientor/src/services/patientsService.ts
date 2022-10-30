@@ -1,5 +1,5 @@
 import patients from '../data/patients';
-import { Patient, NewPatient } from '../types';
+import { Patient, NewPatient, NewEntry, Entry } from '../types';
 import { v1 as uuid } from 'uuid';
 
 const getAll = (): Patient[] => {
@@ -15,7 +15,13 @@ const add = (p: NewPatient): Patient => {
   const patient = {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
     id: uuid(),
-    ...p
+    ...p,
+    entries: p.entries.map((entry: NewEntry) => {
+      return {
+        ...entry,
+        id: uuid()
+      } as Entry;
+    })
   };
 
   patients.push(patient);
