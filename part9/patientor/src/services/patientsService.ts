@@ -28,8 +28,23 @@ const add = (p: NewPatient): Patient => {
   return patient;
 };
 
+const addEntry = (patientId: string, newEntry: NewEntry) => {
+  const patient = patients.find((p) => p.id === patientId);
+  console.log(patient);
+  
+  if (!patient) return undefined;
+  const entry = {
+    ...newEntry,
+    id: uuid()
+  } as Entry;
+
+  patient.entries.push(entry);
+  return patient;
+};
+
 export default {
   getAll,
   getOne,
-  add
+  add,
+  addEntry
 };

@@ -62,8 +62,9 @@ function parseType(type: unknown): 'Hospital' | 'OccupationalHealthcare' | 'Heal
   }
   return type;
 }
-function parseEntries(entries: unknown): NewEntry[] {
-  if(!entries || !areEntries(entries)) {
+export function parseEntries(entries: unknown): NewEntry[] | [] {
+  if (!entries) return [];
+  if(!areEntries(entries)) {
     throw new Error("Invalid or missing entries");
   }
   return entries;
@@ -86,6 +87,7 @@ function parseDiagnosisCodes(dCodes: unknown): string[] | undefined {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function areEntries(input: any): input is NewEntry[] {
+
   try {
     for(const e of input) {
       parseString(e.description);
@@ -162,4 +164,45 @@ function isNumber(input: unknown): input is number {
     return false;
   }
   return true;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function isEntry(e: any): e is NewEntry {
+  try {
+    parseString(e.description);
+    parseDate(e.date);
+    parseString(e.specialist);
+    parseDiagnosisCodes(e.diagnosisCodes);
+    parseType(e.type);
+
+    switch(e.type) {
+      case 'Hospital':
+        parseDate(e.discharge.date);
+        parseString(e.discharge.criteria);
+        break;
+      case 'HealthCheck':
+        parseRating(e.healthCheckRating);
+        break;
+      case 'OccupationalHealthcare':
+        if (e.sickLeave === undefined) break;
+        parseDate(e.sickLeave.startDate);
+        parseDate(e.sickLeave.endDate);
+        parseString(e.employerName);
+        break;
+      default:
+        console.log("=====\n=====\n=====");
+        return false;
+    }
+
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function parseEntry(e: unknown): NewEntry {
+  if (!e || !isEntry(e)) {
+    throw new Error('Invalid or missing entry addition');
+  }
+  return e;
 }
